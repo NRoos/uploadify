@@ -4,12 +4,30 @@
             [clojure.string :as strs])
   (:gen-class))
 
+(defn content-type [upload-name]
+  (let [ext (last (strs/split upload-name #"\."))]
+    (println ext)
+    (cond
+      (= ext "png") "image/png"
+      (or (= ext "jpeg") (= ext "jpg")) "image/jpeg"
+      (= ext "html") "text/html"
+      (= ext "txt") "text/plain"
+      :else "text/plain")))
+
 (defn upload [file-path upload-name]
-  (println (str "Uploading: " upload-name))
-  (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
-              :key upload-name
-              :input-stream (io/input-stream file-path)
-              :metadata {:server-side-encryption "AES256"}))
+  (let [ctype (content-type upload-name)]
+    (println (str "Uploading: " upload-name " with type" ctype))
+      (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
+                  :key upload-name
+                  :input-stream (io/input-stream file-path)
+                  :metadata {:server-side-encryption "AES256"
+                             :content-type ctype})
+      (println (str
+                 "fileurl: https://s3."
+                 (System/getenv "AWS_DEFAULT_REGION")
+                 ".amazonaws.com/"
+                 (System/getenv "BUCKET_NAME")
+                 "/" upload-name))))
 
 (defn -main
   [& args]
