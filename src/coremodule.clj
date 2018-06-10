@@ -1,14 +1,14 @@
 (ns coremodule
-  (:use [amazonica.aws.s3]
-        [clojure.java.io :as io]
-        [clojure.string :as strs])
+  (:require [amazonica.aws.s3 :as s3]
+            [clojure.java.io :as io]
+            [clojure.string :as strs])
   (:gen-class))
 
 (defn upload [file-path upload-name]
   (println (str "Uploading: " upload-name))
-  (put-object :bucket-name (System/getenv "BUCKET_NAME")
+  (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
               :key upload-name
-              :input-stream (input-stream file-path)
+              :input-stream (io/input-stream file-path)
               :metadata {:server-side-encryption "AES256"}))
 
 (defn -main
