@@ -6,7 +6,6 @@
 
 (defn content-type [upload-name]
   (let [ext (last (strs/split upload-name #"\."))]
-    (println ext)
     (cond
       (= ext "png") "image/png"
       (or (= ext "jpeg") (= ext "jpg")) "image/jpeg"
