@@ -14,7 +14,7 @@
       :else "text/plain")))
 
 (defn upload [file-path upload-name]
-  (let [ctype (content-type upload-name)]
+  (let [ctype (content-type file-path)]
     (println (str "Uploading: " upload-name " with type " ctype))
       (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
                   :key upload-name
