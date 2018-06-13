@@ -16,7 +16,7 @@
 
 (defn upload [file-path upload-name]
   (let [ctype (content-type upload-name)]
-    (println (str "Uploading: " upload-name " with type" ctype))
+    (println (str "Uploading: " upload-name " with type " ctype))
       (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
                   :key upload-name
                   :input-stream (io/input-stream file-path)
