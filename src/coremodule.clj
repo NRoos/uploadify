@@ -14,9 +14,10 @@
       :else "text/plain")))
 
 (defn upload [file-path upload-name]
-  (let [ctype (content-type file-path)]
+  (let [ctype (content-type file-path)
+        bucket-name (System/getenv "BUCKET_NAME")]
     (println (str "Uploading: " upload-name " with type " ctype))
-      (s3/put-object :bucket-name (System/getenv "BUCKET_NAME")
+      (s3/put-object :bucket-name bucket-name
                   :key upload-name
                   :input-stream (io/input-stream file-path)
                   :metadata {:server-side-encryption "AES256"
@@ -25,7 +26,7 @@
                  "fileurl: https://s3."
                  (System/getenv "AWS_DEFAULT_REGION")
                  ".amazonaws.com/"
-                 (System/getenv "BUCKET_NAME")
+                 bucket-name
                  "/" upload-name))))
 
 (defn -main
