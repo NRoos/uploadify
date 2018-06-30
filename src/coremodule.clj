@@ -10,7 +10,6 @@
       (= ext "png") "image/png"
       (or (= ext "jpeg") (= ext "jpg")) "image/jpeg"
       (= ext "html") "text/html"
-      (= ext "txt") "text/plain"
       :else "text/plain")))
 
 (defn upload [file-path upload-name]
