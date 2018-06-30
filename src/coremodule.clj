@@ -19,7 +19,7 @@
     (println (str "Uploading: " upload-name " with type " ctype))
       (s3/put-object :bucket-name bucket-name
                   :key upload-name
-                  :input-stream (io/input-stream file-path)
+                  :file file-path
                   :metadata {:server-side-encryption "AES256"
                              :content-type ctype})
       (println (str
