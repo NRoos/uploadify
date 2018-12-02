@@ -1,5 +1,6 @@
 (ns coremodule
   (:require [amazonica.aws.s3 :as s3]
+            [amazonica.aws.cognitoidp :refer :all]
             [clojure.java.io :as io]
             [clojure.string :as strs])
   (:gen-class))
@@ -30,7 +31,8 @@
 
 (defn -main
   [& args]
+  (println (list-user-pools { :max-results 2}))
   (let [file-path (first args)]
     (if (= (count args) 2)
-      (upload file-path (first (rest args)))
+      (upload file-path (ffirst args))
       (upload file-path (last (strs/split file-path #"/"))))))
