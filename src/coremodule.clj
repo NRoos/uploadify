@@ -17,17 +17,17 @@
   (let [ctype (content-type file-path)
         bucket-name (System/getenv "BUCKET_NAME")]
     (println (str "Uploading: " upload-name " with type " ctype))
-      (s3/put-object :bucket-name bucket-name
-                  :key upload-name
-                  :file file-path
-                  :metadata {:server-side-encryption "AES256"
-                             :content-type ctype})
-      (println (str
-                 "fileurl: https://s3."
-                 (System/getenv "AWS_DEFAULT_REGION")
-                 ".amazonaws.com/"
-                 bucket-name
-                 "/" upload-name))))
+    (s3/put-object :bucket-name bucket-name
+                   :key upload-name
+                   :file file-path
+                   :metadata {:server-side-encryption "AES256"
+                              :content-type ctype})
+    (println (str
+              "fileurl: https://s3."
+              (System/getenv "AWS_DEFAULT_REGION")
+              ".amazonaws.com/"
+              bucket-name
+              "/" upload-name))))
 
 (defn -main
   [& args]
